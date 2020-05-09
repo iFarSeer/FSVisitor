@@ -32,7 +32,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onUserChanged"
-            android:text="UserChanged" />
+            android:onClick="onScanResult"
+            android:text="ScanResult" />
     </org.apmem.tools.layouts.FlowLayout>
 </LinearLayout>

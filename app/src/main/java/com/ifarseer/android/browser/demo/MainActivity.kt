@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         browserView.setLoadingView(loadingView)
         browserView.setRefreshView(refreshView)
 
-        component = FSBrowserComponent(browserView, "FSApp", "invokeJS")
-        component.addModule(UserModule(component))
+        component = FSBrowserComponent(browserView, "itomix", "invokeJS")
+        component.addModule(ScanModule(component))
         component.addModule(DialogModule(this, component))
         component.addModule(ToastModule(this, component))
 
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         browserView.loadUrl("file:///android_asset/browser.html")
     }
 
-    fun onUserChanged(view: View) {
-        component.getModule(UserModule::class.java)?.onUserChanged(10002, "lemon", "小慢")
+    fun onScanResult(view: View) {
+        component.getModule(ScanModule::class.java)?.onScanResult(10002, "lemon", "小慢")
     }
 }

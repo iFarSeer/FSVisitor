@@ -52,7 +52,7 @@
                 itomix.invoke('scanner.scan', JSON.stringify({}), 'success', 'failure');
             }
             document.getElementById('btn-printer-print').onclick = function() {
-                itomix.invoke('printer.print', JSON.stringify({}), 'success', 'failure');
+                itomix.invoke('printer.print', JSON.stringify({type:'text', content:'今天是否is\r\n的发生的发生\r\nfsd\r\nfsfdsdfsd\r\nsfsfsdf\r\n'}), 'success', 'failure');
             }
     </script>
 </html>

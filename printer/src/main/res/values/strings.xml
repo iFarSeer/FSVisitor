@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--instruction-->
+    <string name="toast_1">事务打印请使用API模式!</string>
+    <string name="toast_2">服务已断开!</string>
+    <string name="toast_3">蓝牙设备不可用</string>
+    <string name="toast_4">未检测到蓝牙设备，请打开蓝牙</string>
+    <string name="toast_5">未发现InnterPrinter!</string>
+    <string name="toast_6">蓝牙连接失败!</string>
+    <string name="toast_7">API 暂时只打印单个二维码</string>
+    <string name="toast_8">两个二维码尺寸最大为7</string>
+    <string name="toast_9">条码类型或内容不正确!</string>
+    <string name="toast_10">请设置打印机为黑标模式!</string>
+</resources>

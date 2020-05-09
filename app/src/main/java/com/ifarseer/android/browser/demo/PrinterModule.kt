@@ -2,6 +2,7 @@ package com.ifarseer.android.browser.demo
 
 import android.content.Context
 import android.text.TextUtils
+import com.fs.android.sunmi.printer.FSPrinter
 import com.ifarseer.android.browser.FSBrowserComponent
 import com.ifarseer.android.browser.FSBrowserJSCallback
 import com.ifarseer.android.browser.FSBrowserModule
@@ -28,71 +29,18 @@ class PrinterModule(component: FSBrowserComponent) : FSBrowserModule(component) 
         return "printer"
     }
 
-    companion object {
-        const val CODE_FAILURE = 0
-        const val CODE_SUCCESS = 1
-        const val PRINT_STATUS_START = "start"
-        const val PRINT_STATUS_FAILURE = "failure"
-        const val PRINT_STATUS_SUCCESS = "success"
-    }
-
-    private var printerService: SunmiPrinterService? = null
-
     fun connect(context: Context, callback: (code: Int) -> Unit) {
-        InnerPrinterManager.getInstance().bindService(context, object : InnerPrinterCallback() {
-            override fun onConnected(service: SunmiPrinterService?) {
-                printerService = service
-                callback(CODE_SUCCESS)
-            }
-
-            override fun onDisconnected() {
-                printerService = null
-                callback(CODE_FAILURE)
-            }
-        })
+        FSPrinter.connect(context.applicationContext, callback)
     }
 
     fun disconnect(context: Context,callback: (code: Int) -> Unit){
-        InnerPrinterManager.getInstance().unBindService(context, object : InnerPrinterCallback() {
-            override fun onConnected(service: SunmiPrinterService?) {
-                printerService = null
-                callback(CODE_SUCCESS)
-            }
-
-            override fun onDisconnected() {
-                printerService = null
-                callback(CODE_FAILURE)
-            }
-        })
+        FSPrinter.disconnect(context.applicationContext, callback)
     }
 
     @BrowserNativeMethod(name = "print")
     fun print(json: String, callback: FSBrowserJSCallback?) {
-        onPrintStatusChanged(PRINT_STATUS_START)
-        printerService?.printText(json, object : InnerResultCallbcak(){
-            override fun onRunResult(isSuccess: Boolean) {
-                //返回接⼝执⾏的情况(并⾮真实打印):成功或失败
-                LogTool.info(getName(), "onRunResult:isSuccess = $isSuccess")
-            }
-
-            override fun onPrintResult(code: Int, msg: String?) {
-                //事务模式下真实的打印结果返回
-                onPrintStatusChanged(PRINT_STATUS_SUCCESS, code, msg ?: "")
-                LogTool.info(getName(), "onPrintResult:code = $code, msg = $msg")
-            }
-
-            override fun onReturnString(result: String?) {
-                //部分接⼝会异步返回查询数据
-//                onPrintStatusChanged(PRINT_STATUS_FAILURE)
-                LogTool.info(getName(), "onReturnString:result = $result")
-            }
-
-            override fun onRaiseException(code: Int, msg: String?) {
-                //接⼝执⾏失败时，返回的异常状态
-                onPrintStatusChanged(PRINT_STATUS_FAILURE, code, msg ?: "")
-                LogTool.info(getName(), "onRaiseException:code = $code, msg = $msg")
-            }
-        })
+        FSPrinter.printText(json)
+        callback?.onSuccess("${FSPrinter.sunmiPrinter}")
     }
 
     @BrowserJSMethod(name = "onPrintStatusChanged")

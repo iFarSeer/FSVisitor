@@ -15,14 +15,14 @@ import org.json.JSONObject
  * @version 1.0.0
  * @since 25/01/2018.
  */
-@BrowserModule(name = "scan")
-class ScanModule(component: FSBrowserComponent) : FSBrowserModule(component) {
+@BrowserModule(name = "scanner")
+class ScannerModule(component: FSBrowserComponent) : FSBrowserModule(component) {
     override fun getName(): String {
-        return "test"
+        return "scanner"
     }
 
-    @BrowserNativeMethod(name = "start")
-    fun start(json: String, callback: FSBrowserJSCallback?) {
+    @BrowserNativeMethod(name = "scan")
+    fun scan(json: String, callback: FSBrowserJSCallback?) {
         val jsonObj = JSONObject()
         jsonObj.put("userId", 10001)
         jsonObj.put("userName", "zhaosc")

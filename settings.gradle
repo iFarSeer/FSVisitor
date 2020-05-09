@@ -1,1 +1,3 @@
-include ':app', ':browser'
+include ':app'
+include ':browser'
+include ':printer'

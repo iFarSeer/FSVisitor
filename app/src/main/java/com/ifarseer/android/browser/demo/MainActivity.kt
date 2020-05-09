@@ -16,7 +16,15 @@ import com.ifarseer.android.browser.view.FSWebView
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        const val TAG = "MainActivity"
+    }
+
     private lateinit var component: FSBrowserComponent
+    private lateinit var printerModule: PrinterModule
+    private lateinit var scannerModule: ScannerModule
+    private lateinit var toastModule: ToastModule
+    private lateinit var dialogModule: DialogModule
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +40,19 @@ class MainActivity : AppCompatActivity() {
         browserView.setLoadingView(loadingView)
         browserView.setRefreshView(refreshView)
 
+
         component = FSBrowserComponent(browserView, "itomix", "invokeJS")
-        component.addModule(ScanModule(component))
-        component.addModule(DialogModule(this, component))
-        component.addModule(ToastModule(this, component))
+        toastModule = ToastModule(this, component)
+        dialogModule = DialogModule(this, component)
+        scannerModule = ScannerModule(component)
+        printerModule = PrinterModule(component)
+        component.addModule(toastModule)
+        component.addModule(dialogModule)
+        component.addModule(scannerModule)
+        component.addModule(printerModule)
+        printerModule.connect(this) {
+            LogTool.debug(TAG, "printerModule connect:result = $it")
+        }
 
         browserView.loadListener = object : OnBrowseLoadListener {
             override fun onLoadStarted(fsWebView: FSWebView, url: String?, favicon: Bitmap?) {
@@ -61,7 +78,15 @@ class MainActivity : AppCompatActivity() {
         browserView.loadUrl("file:///android_asset/browser.html")
     }
 
-    fun onScanResult(view: View) {
-        component.getModule(ScanModule::class.java)?.onScanResult(10002, "lemon", "小慢")
+    override fun onDestroy() {
+        super.onDestroy()
+        printerModule.disconnect(this) {
+            LogTool.debug(TAG, "printerModule disconnect: result = $it")
+        }
     }
+
+    fun onScanResult(view: View) {
+        component.getModule(ScannerModule::class.java)?.onScanResult(10002, "lemon", "小慢")
+    }
+
 }

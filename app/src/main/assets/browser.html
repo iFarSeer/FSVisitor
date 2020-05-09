@@ -14,13 +14,17 @@
         <div>
             <button id="btn-toast-show">show</button>
         </div>
-        <h4>User</h4>
+        <h4>scanner</h4>
         <div>
-            <button id="btn-scan-start">startScan</button>
+            <button id="btn-scanner-scan">startScan</button>
+        </div>
+        <h4>Printer</h4>
+        <div>
+            <button id="btn-printer-print">startPrint</button>
         </div>
         <h4>Result</h4>
         <div>
-            <p id="scan_result_content"></p>
+            <p id="result_content"></p>
         </div>
     </body>
 
@@ -31,7 +35,7 @@
                 var args = Array.prototype.slice.call(arguments)[1]
                 var result = completeName.concat('(', JSON.stringify(args), ')')
                 console.log(result)
-                var element = document.getElementById("scan_result_content");
+                var element = document.getElementById("result_content");
                 element.innerHTML = result;
             }
             document.getElementById('btn-dialog-alert').onclick = function() {
@@ -44,8 +48,11 @@
             document.getElementById('btn-toast-show').onclick = function() {
                 itomix.invoke('toast.show', JSON.stringify({title:'title', message:'toast'}), 'success', 'failure');
             }
-            document.getElementById('btn-scan-start').onclick = function() {
-                itomix.invoke('scan.start', JSON.stringify({}), 'success', 'failure');
+            document.getElementById('btn-scanner-scan').onclick = function() {
+                itomix.invoke('scanner.scan', JSON.stringify({}), 'success', 'failure');
+            }
+            document.getElementById('btn-printer-print').onclick = function() {
+                itomix.invoke('printer.print', JSON.stringify({}), 'success', 'failure');
             }
     </script>
 </html>

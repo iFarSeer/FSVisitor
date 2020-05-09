@@ -1,0 +1,78 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'maven'
+
+android {
+    compileSdkVersion 26
+
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+
+//version="2.1.4"
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            pom.groupId = "com.ifarseer.android.browser"
+//            pom.artifactId = "browser"
+//
+//
+//            println("开始读取参数")
+//            def isRelease = false
+//            if (project.hasProperty('R')) {
+//                println("存在参数R = ${R}")
+//                isRelease = R.toBoolean()
+//            } else {
+//                isRelease = false
+//            }
+//            println("结束读取参数")
+//            println("isRelease = ${isRelease}")
+//
+//            if (isRelease) {
+//                pom.version = version
+//                repository(url:nexusReleases) {
+//                    authentication(userName:nexusUsername, password:nexusPassword)
+//                }
+//            } else {
+//                // pom.version = "${version}-SNAPSHOT"
+//                pom.version = "${version}-SNAPSHOT"
+//                repository(url:nexusSnapshots) {
+//                    authentication(userName:nexusUsername, password:nexusPassword)
+//                }
+//            }
+//
+//            pom.project {
+//                description ''
+//            }
+//        }
+//    }
+//}

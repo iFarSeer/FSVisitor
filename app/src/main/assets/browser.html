@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+    <head>
+        <title>FSBrowserSDK Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h4>Dialog</h4>
+        <div>
+            <button id="btn-dialog-alert">showAlertDialog</button>
+            <button id="btn-dialog-confirm">showConfirmDialog</button>
+        </div>
+        <h4>Toast</h4>
+        <div>
+            <button id="btn-toast-show">show</button>
+        </div>
+        <h4>User</h4>
+        <div>
+            <button id="btn-user-getinfo">getUserInfo</button>
+        </div>
+
+        <h4>Result</h4>
+        <div>
+            <p id="result_content"></p>
+        </div>
+    </body>
+
+    <script>
+            window.FSApp = window.FSApp || {};
+            window.FSApp.invokeJS = function() {
+                var completeName = Array.prototype.slice.call(arguments)[0]
+                var args = Array.prototype.slice.call(arguments)[1]
+                var result = completeName.concat('(', JSON.stringify(args), ')')
+                console.log(result)
+                var element = document.getElementById("result_content");
+                element.innerHTML = result;
+            }
+            document.getElementById('btn-dialog-alert').onclick = function() {
+                <!--FSApp.invokeJS('success', {result: 'success'})-->
+                FSApp.invoke('dialog.showAlertDialog', JSON.stringify({ title: 'title', message: 'alert' }), 'success', 'failure');
+            }
+            document.getElementById('btn-dialog-confirm').onclick = function() {
+                FSApp.invoke('dialog.showConfirmDialog', JSON.stringify({title:'title', message:'confirm'}), 'success', 'failure');
+            }
+            document.getElementById('btn-toast-show').onclick = function() {
+                FSApp.invoke('toast.show', JSON.stringify({title:'title', message:'toast'}), 'success', 'failure');
+            }
+            document.getElementById('btn-user-getinfo').onclick = function() {
+                FSApp.invoke('user.getUserInfo', JSON.stringify({}), 'success', 'failure');
+            }
+    </script>
+</html>

@@ -6,7 +6,9 @@ import com.ifarseer.android.browser.FSBrowserModule
 import com.ifarseer.android.browser.annotation.BrowserJSMethod
 import com.ifarseer.android.browser.annotation.BrowserModule
 import com.ifarseer.android.browser.annotation.BrowserNativeMethod
+import org.json.JSONArray
 import org.json.JSONObject
+import java.net.URLDecoder
 
 /**
  * 扫描模块
@@ -16,13 +18,14 @@ import org.json.JSONObject
  * @since 25/01/2018.
  */
 @BrowserModule(name = "scanner")
-class ScannerModule(component: FSBrowserComponent) : FSBrowserModule(component) {
+class ScannerModule(private var scanListener: OnScanListener, component: FSBrowserComponent) : FSBrowserModule(component) {
     override fun getName(): String {
         return "scanner"
     }
 
     @BrowserNativeMethod(name = "scan")
     fun scan(json: String, callback: FSBrowserJSCallback?) {
+        scanListener.onStartScan()
         val jsonObj = JSONObject()
         jsonObj.put("userId", 10001)
         jsonObj.put("userName", "zhaosc")
@@ -31,11 +34,13 @@ class ScannerModule(component: FSBrowserComponent) : FSBrowserModule(component) 
     }
 
     @BrowserJSMethod(name = "onScanResult")
-    fun onScanResult(userId: Int, userName: String, nickName: String) {
+    fun onScanResult(content: String) {
         val jsonObj = JSONObject()
-        jsonObj.put("userId", userId)
-        jsonObj.put("userName", userName)
-        jsonObj.put("nickName", nickName)
+        jsonObj.put("content", URLDecoder.decode(content, "utf-8"))
         component.invokeJSMethod("onScanResult", jsonObj.toString())
     }
+}
+
+interface OnScanListener {
+    fun onStartScan()
 }

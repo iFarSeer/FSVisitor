@@ -44,6 +44,8 @@ object FSPrinter {
         } catch (e: InnerPrinterException) {
             sunmiPrinter = NoSunmiPrinter
             e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
         }
     }
 
@@ -71,6 +73,8 @@ object FSPrinter {
             sunmiPrinter = LostSunmiPrinter
         } catch (e: InnerPrinterException) {
             sunmiPrinter = NoSunmiPrinter
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
             e.printStackTrace()
         }
     }

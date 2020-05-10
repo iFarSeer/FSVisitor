@@ -1,6 +1,8 @@
 package com.ifarseer.android.browser.view
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Build
 import android.util.AttributeSet
 import android.webkit.CookieManager
@@ -51,11 +53,12 @@ class FSWebView @JvmOverloads constructor(
             settings.allowUniversalAccessFromFileURLs = true
             settings.allowFileAccessFromFileURLs = true
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            enableSlowWholeDocumentDraw()
             CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true)
+            setWebContentsDebuggingEnabled(true)
         }
     }
 
@@ -75,7 +78,15 @@ class FSWebView @JvmOverloads constructor(
         settings.userAgentString = userAgent
     }
 
-    override fun destroy(){
+    fun captureScreen(): Bitmap {
+        val height = (contentHeight * scale + 0.5).toInt()
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        val canvas = Canvas(bitmap)
+        draw(canvas)
+        return bitmap
+    }
+
+    override fun destroy() {
         onPause()
         pauseTimers()
         super.destroy()

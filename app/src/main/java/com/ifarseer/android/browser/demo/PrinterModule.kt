@@ -1,6 +1,8 @@
 package com.ifarseer.android.browser.demo
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import com.fs.android.sunmi.printer.FSPrinter
 import com.ifarseer.android.browser.FSBrowserComponent
@@ -9,11 +11,6 @@ import com.ifarseer.android.browser.FSBrowserModule
 import com.ifarseer.android.browser.annotation.BrowserJSMethod
 import com.ifarseer.android.browser.annotation.BrowserModule
 import com.ifarseer.android.browser.annotation.BrowserNativeMethod
-import com.ifarseer.android.browser.tool.LogTool
-import com.sunmi.peripheral.printer.InnerPrinterCallback
-import com.sunmi.peripheral.printer.InnerPrinterManager
-import com.sunmi.peripheral.printer.InnerResultCallbcak
-import com.sunmi.peripheral.printer.SunmiPrinterService
 import org.json.JSONObject
 
 /**
@@ -33,14 +30,19 @@ class PrinterModule(component: FSBrowserComponent) : FSBrowserModule(component) 
         FSPrinter.connect(context.applicationContext, callback)
     }
 
-    fun disconnect(context: Context,callback: (code: Int) -> Unit){
+    fun disconnect(context: Context, callback: (code: Int) -> Unit) {
         FSPrinter.disconnect(context.applicationContext, callback)
     }
 
     @BrowserNativeMethod(name = "print")
     fun print(json: String, callback: FSBrowserJSCallback?) {
-        FSPrinter.printText(json)
-        callback?.onSuccess("${FSPrinter.sunmiPrinter}")
+//        FSPrinter.printText(json)
+
+        Handler(Looper.getMainLooper()).post {
+            FSPrinter.printBitmap(component.captureScreen(), 1)
+        }
+
+//        callback?.onSuccess("${FSPrinter.sunmiPrinter}")
     }
 
     @BrowserJSMethod(name = "onPrintStatusChanged")

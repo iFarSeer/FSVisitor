@@ -59,8 +59,10 @@ class FSBrowserComponent(val browserView: FSBrowserView, private val jsDomain: S
         }
     }
 
+    fun captureScreen() = browserView.captureScreen()
+
     fun destroy() {
-        moduleMap.values.forEach(fun(module : FSBrowserModule) {
+        moduleMap.values.forEach(fun(module: FSBrowserModule) {
             module.destroy()
         })
         moduleMap.clear()

@@ -26,7 +26,7 @@ class FSBrowserView @JvmOverloads constructor(
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private var mContentView: FrameLayout? = null
-    private var mFSWebView: FSWebView? = null
+    private var mFSWebView: FSWebView
     private var mLoadingView: RelativeLayout? = null
     private var mRefreshView: RelativeLayout? = null
     var loadListener: OnBrowseLoadListener? = null
@@ -63,7 +63,7 @@ class FSBrowserView @JvmOverloads constructor(
     fun setFSWebSettingsCallback(callback: FSWebSettingsCallback?) {
         var wrapper = object : FSWebSettingsCallback {
 
-            var loadResult : Int = 0;
+            var loadResult: Int = 0;
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 LogTool.debug(FSBrowserConstants.TAG, "onPageStarted")
                 callback?.onPageStarted(view, url, favicon)
@@ -87,7 +87,7 @@ class FSBrowserView @JvmOverloads constructor(
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 LogTool.debug(FSBrowserConstants.TAG, "shouldOverrideUrlLoading")
-               return callback?.shouldOverrideUrlLoading(view, request) ?: false
+                return callback?.shouldOverrideUrlLoading(view, request) ?: false
             }
 
             override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
@@ -118,7 +118,8 @@ class FSBrowserView @JvmOverloads constructor(
 
             override fun onShowFileChooser(webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?, fileChooserParams: WebChromeClient.FileChooserParams?): Boolean {
                 LogTool.debug(FSBrowserConstants.TAG, "onShowFileChooser")
-                return callback?.onShowFileChooser(webView, filePathCallback, fileChooserParams) ?: false
+                return callback?.onShowFileChooser(webView, filePathCallback, fileChooserParams)
+                        ?: false
             }
 
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
@@ -143,7 +144,7 @@ class FSBrowserView @JvmOverloads constructor(
 
             override fun onJsPrompt(view: WebView?, url: String?, message: String?, defaultValue: String?, result: JsPromptResult?): Boolean {
                 LogTool.debug(FSBrowserConstants.TAG, "onJsPrompt")
-                return callback?.onJsPrompt(view, url, message, defaultValue, result)?: false
+                return callback?.onJsPrompt(view, url, message, defaultValue, result) ?: false
             }
 
             override fun onJsTimeout(): Boolean {
@@ -161,27 +162,29 @@ class FSBrowserView @JvmOverloads constructor(
                 return callback?.onConsoleMessage(consoleMessage) ?: false
             }
         }
-        mFSWebView?.setFSWebSettingsCallback(wrapper)
+        mFSWebView.setFSWebSettingsCallback(wrapper)
     }
 
     fun setUserAgent(userAgent: String) {
-        mFSWebView?.setUserAgent(userAgent)
+        mFSWebView.setUserAgent(userAgent)
     }
 
     fun addJavascriptInterface(obj: Any, interfaceName: String) {
-        mFSWebView?.addJavascriptInterface(obj, interfaceName)
+        mFSWebView.addJavascriptInterface(obj, interfaceName)
     }
 
     fun loadUrl(url: String) {
-        mFSWebView?.loadUrl(url)
+        mFSWebView.loadUrl(url)
     }
 
     fun reload() {
-        mFSWebView?.reload()
+        mFSWebView.reload()
     }
 
-    fun destroy(){
+    fun destroy() {
         mContentView?.removeAllViews()
-        mFSWebView?.destroy()
+        mFSWebView.destroy()
     }
+
+    fun captureScreen(): Bitmap = mFSWebView.captureScreen()
 }

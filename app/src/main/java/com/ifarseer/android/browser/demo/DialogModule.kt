@@ -22,6 +22,9 @@ class DialogModule(private val context: Context, component: FSBrowserComponent) 
         return "dialog"
     }
 
+    /**
+     * js： itomix.invoke('dialog.showAlertDialog', JSON.stringify({ title: 'title', message: 'alert' }), 'success', 'failure');
+     */
     @BrowserNativeMethod(name = "showAlertDialog")
     fun showAlertDialog(json: String, callback: FSBrowserJSCallback?) {
         val jsonObj = JSONObject(json)
@@ -41,6 +44,9 @@ class DialogModule(private val context: Context, component: FSBrowserComponent) 
                 .show()
     }
 
+    /**
+     *  js:itomix.invoke('dialog.showConfirmDialog', JSON.stringify({title:'title', message:'confirm'}), 'success', 'failure');
+     */
     @BrowserNativeMethod(name = "showConfirmDialog")
     fun showConfirmDialog(json: String, callback: FSBrowserJSCallback?) {
         val jsonObj = JSONObject(json)

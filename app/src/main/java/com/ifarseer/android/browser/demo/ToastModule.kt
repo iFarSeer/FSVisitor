@@ -22,6 +22,9 @@ class ToastModule(private val context: Context, component: FSBrowserComponent) :
         return "toast"
     }
 
+    /**
+     * js: itomix.invoke('toast.show', JSON.stringify({message:'toast'}));
+     */
     @BrowserNativeMethod(name = "show")
     fun show(json: String, callback: FSBrowserJSCallback?) {
         Toast.makeText(context, json, Toast.LENGTH_LONG).show()

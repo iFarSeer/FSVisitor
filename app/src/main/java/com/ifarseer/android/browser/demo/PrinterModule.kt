@@ -36,13 +36,11 @@ class PrinterModule(component: FSBrowserComponent) : FSBrowserModule(component) 
 
     @BrowserNativeMethod(name = "print")
     fun print(json: String, callback: FSBrowserJSCallback?) {
-//        FSPrinter.printText(json)
-
+//        FSPrinter.printText("dfjsfjsadlkfsfsdfjsdlkjfksdfjlsdjffsdjfjskld")
         Handler(Looper.getMainLooper()).post {
             FSPrinter.printBitmap(component.captureScreen(), 1)
         }
-
-//        callback?.onSuccess("${FSPrinter.sunmiPrinter}")
+        onPrintStatusChanged("${FSPrinter.sunmiPrinter}")
     }
 
     @BrowserJSMethod(name = "onPrintStatusChanged")

@@ -14,6 +14,11 @@ import java.util.*
 class FSBrowserJSInterface(private val component: FSBrowserComponent) {
 
     @JavascriptInterface
+    fun invoke(name: String, json: String) {
+        invoke(name, json, "", "")
+    }
+
+    @JavascriptInterface
     fun invoke(name: String, json: String, success: String, failure: String) {
         var index = name.indexOf(".")
         LogTool.debug(FSBrowserConstants.TAG, String.format("FSBrowserJSInterface: name=%s, json=%s, success=%s, failure=%s.", name, json, success, failure))

@@ -4,6 +4,29 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'AndResGuard'
+
+andResGuard {
+    // mappingFile = file("./resource_mapping.txt")
+    mappingFile = null
+    use7zip = true
+    useSign = true
+    // 打开这个开关，会keep住所有资源的原始路径，只混淆资源的名字
+    keepRoot = false
+    // 设置这个值，会把arsc name列混淆成相同的名字，减少string常量池的大小
+    fixedResName = "arg"
+    // 打开这个开关会合并所有哈希值相同的资源，但请不要过度依赖这个功能去除去冗余资源
+    mergeDuplicatedRes = true
+    whiteList = [
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+    ]
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -15,10 +38,36 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        debug {
+        }
+
+        myConfig {
+            storeFile file("spade.publish")
+            storePassword "spade2013"
+            keyAlias "spade"
+            keyPassword "spade2013"
+        }
+    }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.myConfig
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.myConfig
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def fileName = "FSVisitor-${variant.name}-${variant.versionName}.apk"
+//            def fileName = "1.apk"
+            output.outputFileName = fileName
         }
     }
 }

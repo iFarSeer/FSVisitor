@@ -60,6 +60,10 @@ class FSWebView @JvmOverloads constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setWebContentsDebuggingEnabled(true)
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            setUserAgent(WebSettings.getDefaultUserAgent(context))
+        }
     }
 
 

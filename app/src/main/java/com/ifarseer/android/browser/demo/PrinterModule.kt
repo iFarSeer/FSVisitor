@@ -40,7 +40,7 @@ class PrinterModule(component: FSBrowserComponent) : FSBrowserModule(component) 
         Handler(Looper.getMainLooper()).post {
             FSPrinter.printBitmap(component.captureScreen(), 1)
         }
-        onPrintStatusChanged("${FSPrinter.sunmiPrinter}")
+        callback?.onSuccess(JSONObject().put("code", 0).put("message", "打印成功").toString())
     }
 
     @BrowserJSMethod(name = "onPrintStatusChanged")

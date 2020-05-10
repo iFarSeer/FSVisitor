@@ -52,7 +52,7 @@ class DialogModule(private val context: Context, component: FSBrowserComponent) 
         val jsonObj = JSONObject(json)
         MaterialDialog.Builder(context)
                 .title(jsonObj.getString("title"))
-                .content(jsonObj.getString("message"))
+                .content(jsonObj.getString("confirm"))
                 .positiveText("确定")
                 .onPositive(fun (dialog, which) {
                     callback?.onSuccess(JSONObject().put("result", "success").toString())

@@ -30,29 +30,50 @@
     <script type="text/javascript" src = "file:///android_asset/itomix.js" /></script>
 
     <script>
-<!--            window.itomix = window.itomix || {};-->
-<!--            window.itomix.invokeJS = function() {-->
-<!--                var completeName = Array.prototype.slice.call(arguments)[0]-->
-<!--                var args = Array.prototype.slice.call(arguments)[1]-->
-<!--                var result = completeName.concat('(', JSON.stringify(args), ')')-->
-<!--                console.log(result)-->
-<!--                var element = document.getElementById("result_content");-->
-<!--                element.innerHTML = result;-->
-<!--            }-->
+            function dialogAlertSuccess(json){
+                var element = document.getElementById("result_content");
+                element.innerHTML = JSON.stringify(json);
+            }
+            function dialogAlertFailure(json){
+                var element = document.getElementById("result_content");
+                element.innerHTML = JSON.stringify(json);
+            }
+            function dialogConfirmSuccess(json){
+                var element = document.getElementById("result_content");
+                element.innerHTML = JSON.stringify(json);
+            }
+            function dialogConfirmFailure(json){
+                var element = document.getElementById("result_content");
+                element.innerHTML = JSON.stringify(json);
+            }
+            function printSuccess(json){
+                var element = document.getElementById("result_content");
+                element.innerHTML = JSON.stringify(json);
+            }
+            function printFailure(json){
+                var element = document.getElementById("result_content");
+                element.innerHTML = JSON.stringify(json);
+            }
             document.getElementById('btn-dialog-alert').onclick = function() {
-                showAlertDialog('title', 'alert')
+                showAlertDialog('title', 'alert', dialogAlertSuccess, dialogAlertFailure)
             }
             document.getElementById('btn-dialog-confirm').onclick = function() {
-                showConfirmDialog('title', 'confirm')
+                showConfirmDialog('title', 'confirm', dialogConfirmSuccess, dialogConfirmFailure)
             }
             document.getElementById('btn-toast-show').onclick = function() {
                 toast("Test Toast")
+            }
+
+             //native调用此方法异步返回扫描结果
+            function onScanResult(json){
+                var element = document.getElementById("result_content");
+                element.innerHTML = JSON.stringify(json);
             }
             document.getElementById('btn-scanner-scan').onclick = function() {
                 scan()
             }
             document.getElementById('btn-printer-print').onclick = function() {
-                print()
+                print(printSuccess, printFailure)
             }
     </script>
 </html>

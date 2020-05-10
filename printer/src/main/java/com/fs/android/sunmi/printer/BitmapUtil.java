@@ -1,6 +1,8 @@
 package com.fs.android.sunmi.printer;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -20,6 +22,7 @@ public class BitmapUtil {
 
     /**
      * 生成条码bitmap
+     *
      * @param content
      * @param format
      * @param width
@@ -27,10 +30,10 @@ public class BitmapUtil {
      * @return
      */
     public static Bitmap generateBitmap(String content, int format, int width, int height) {
-        if(content == null || content.equals(""))
+        if (content == null || content.equals(""))
             return null;
         BarcodeFormat barcodeFormat;
-        switch (format){
+        switch (format) {
             case 0:
                 barcodeFormat = BarcodeFormat.UPC_A;
                 break;
@@ -85,9 +88,23 @@ public class BitmapUtil {
             return Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.RGB_565);
         } catch (WriterException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // 等比缩放图片
+    public static Bitmap zoomImg(Bitmap bm, int newWidth) {
+        // 获得图片的宽高
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        // 计算缩放比例
+        float scaleWidth = ((float) newWidth) / width;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleWidth);
+        // 得到新的图片
+        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
     }
 }

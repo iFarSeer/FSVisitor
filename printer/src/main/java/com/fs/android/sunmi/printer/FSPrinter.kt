@@ -162,14 +162,15 @@ object FSPrinter {
         try {
             if (orientation == 0) {
                 printerService?.printBitmap(bitmap, null)
-                printerService?.printText("横向排列\n", null)
-                printerService?.printBitmap(bitmap, null)
-                printerService?.printText("横向排列\n", null)
+//                printerService?.printText("横向排列\n", null)
+//                printerService?.printBitmap(bitmap, null)
+//                printerService?.printText("横向排列\n", null)
             } else {
-                printerService?.printBitmap(bitmap, null)
-                printerService?.printText("\n纵向排列\n", null)
-                printerService?.printBitmap(bitmap, null)
-                printerService?.printText("\n纵向排列\n", null)
+                val tempBitmap = BitmapUtil.zoomImg(bitmap, 380)
+                printerService?.printBitmap(tempBitmap, null)
+//                printerService?.printText("\n纵向排列\n", null)
+//                printerService?.printBitmap(bitmap, null)
+//                printerService?.printText("\n纵向排列\n", null)
             }
         } catch (e: RemoteException) {
             e.printStackTrace()

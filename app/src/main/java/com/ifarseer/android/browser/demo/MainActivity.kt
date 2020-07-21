@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity(), OnScanListener {
         })
 
         browserView.loadUrl("file:///android_asset/browser.html")
+//        browserView.loadUrl("https://live.bilibili.com/activity/summer-2020-half/index.html?room_id=5318#/rank")
     }
 
     override fun onDestroy() {
